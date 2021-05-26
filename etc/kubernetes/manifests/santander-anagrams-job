@@ -19,13 +19,36 @@ spec:
               mountPath: /data
               name: santander-anagrams-data
               readOnly: true
-        initContainers:
-          -
-            args
-            command
-            env
-            image
-            name: santander-anagrams-
-            volumeMounts:
-              -
-status: []
+      initContainers:
+        -
+          args:
+            - -c
+            - ' set -x ; cd /downloads ; rm -f ${filename} ; wget ${url}/${filename} '
+          command:
+            - sh
+          env:
+            -
+              name: filename
+              valueFrom:
+                configMapKeyRef:
+                  key: filename
+                  value: santander-anagrams-job-cm
+            -
+              name: url
+              valueFrom:
+                configMapKeyRef:
+                  key: url
+                  value: santander-anagrams-job-secret
+          image: busybox
+          name: santander-anagrams-initcontainer
+          volumeMounts:
+            - 
+              mountPath: /downloads
+              name: santander-anagrams-data
+              readOnly: false
+      restartPolicy: Never
+      volumes:
+        -
+          name: santander-anagrams-data
+          emptyDir: {}
+status: {}
