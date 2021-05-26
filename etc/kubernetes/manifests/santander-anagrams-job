@@ -36,7 +36,7 @@ spec:
             -
               name: url
               valueFrom:
-                configMapKeyRef:
+                secretKeyRef:
                   key: url
                   name: santander-anagrams-job-secret
           image: busybox
